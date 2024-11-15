@@ -5,34 +5,32 @@
 //EN RESOLUME PONGAN LOS VIDEOS EN MODO RESTART ASI CADA VEZ QUE ACCEDEN A UNO ESTE VUELVE A INICIARSE DESDE EL PRINCIPIO.
 
 
+
+
 import netP5.*;
 import oscP5.*;
 
 OscP5 oscP5;
 NetAddress locacionDeResolume;
-OscMessage seleccionarVideoAResolume;
+int numeroDeVideo = 1;
 
-int numeroDeVideo=1;
-
-void setup(){
-  oscP5 = new OscP5(this,12000);
-locacionDeResolume=new NetAddress("127.0.0.1",3333); // IP LOCAL, PUERTO QUE RECIBE DATOS RESOLUME
+void setup() {
+  oscP5 = new OscP5(this, 12000);
+  locacionDeResolume = new NetAddress("127.0.0.1", 3333); // IP LOCAL, PUERTO QUE RECIBE DATOS RESOLUME
 }
 
-void draw(){
-seleccionarVideoAResolume= new OscMessage("/composition/layers/3/clips/"+numeroDeVideo+"/connect");
-
+void draw() {
+  // Vacío, no necesitas crear el mensaje aquí
 }
 
-void keyPressed(){
+void keyPressed() {
+  if (key == '1') { numeroDeVideo = 1; }
+  if (key == '2') { numeroDeVideo = 2; }
+  if (key == '3') { numeroDeVideo = 3; }
+  if (key == '4') { numeroDeVideo = 4; }
+  if (key == '5') { numeroDeVideo = 5; }
 
-if(key=='1'){numeroDeVideo=1;}
-if(key=='2'){numeroDeVideo=2;}
-if(key=='3'){numeroDeVideo=3;}
-if(key=='4'){numeroDeVideo=4;}
-if(key=='5'){numeroDeVideo=5;}
-oscP5.send(seleccionarVideoAResolume,locacionDeResolume);
-
-
-
+  // Crear el mensaje actualizado con el número de video cada vez que se presiona una tecla
+  OscMessage seleccionarVideoAResolume = new OscMessage("/composition/layers/3/clips/" + numeroDeVideo + "/connect");
+  oscP5.send(seleccionarVideoAResolume, locacionDeResolume);
 }
